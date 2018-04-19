@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Vollkorn');
 
 @accent: #111;
-@shadow: rgba(0,0,0,0.1);
+@shadow: rgba(0,
+0,
+0,
+0.1);
+
+* {}
 
 body {
     margin: 0;
@@ -9,29 +14,36 @@ body {
     height: 100vh;
 }
 
+p {
+    opacity: 0.75;
+}
+
 nav {
     color: @accent;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
-    
+
     .nav_grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
     }
-    
+
     select {
-        width: 100px;
+        width: 120px;
         height: 30px;
         float: right;
         border: none;
-        border-bottom: 1px solid @accent;
+        //        border-bottom: 1px solid @accent;
         padding: 5px;
         &:focus {
-            overflow: none;
+            outline: none;
+        }
+        option {
+            border: none;
         }
     }
-    
+
     a {
         text-decoration: none;
         color: @accent;
@@ -43,7 +55,12 @@ nav {
     }
     img {
         user-select: none;
+        transition: 0.5s ease;
+        &:hover {
+            transform: rotate(180deg);
+        }
     }
+
     label {
         display: block;
     }
@@ -77,13 +94,12 @@ nav {
 
 #app {
     padding: 20px;
-//    background-color: rgba(0, 0, 0, 0.25);
+    //    background-color: rgba(0, 0, 0, 0.25);
     filter: none;
     min-width: 200px;
     max-width: 800px;
     margin: 0 auto;
-    ul,
-    li {
+    ul, li {
         margin: 0;
         padding: 0;
     }
@@ -106,16 +122,16 @@ nav {
     }
 
     .cell {
-        h2,
-        p {
+        h2 {
+            font-weight: 300;
+        }
+        h2, p {
             cursor: pointer;
             &:hover {
                 background-color: @shadow;
             }
         }
-        h2,
-        p,
-        input {
+        h2, p, input {
             color: @accent;
             margin: 0;
             padding: 0;
@@ -136,8 +152,7 @@ nav {
         input:nth-child(2n) {
             font-size: 1em;
         }
-        button,
-        a {
+        button, a {
             width: 50px;
             height: 100%;
         }
