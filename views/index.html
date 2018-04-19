@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>astarta</title>
+    <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.0/hint.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    
+    <link rel="stylesheet/less" type="text/css" href="/style/style.less">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.1/less.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav>
+            <a href="/">
+                <h1>Astarta</h1>
+                <img src="/img/logo_black.png" width="64">
+            </a>
+            <br>
+            <input type="search" placeholder="поиск" v-model="filter">
+        </nav>
+        <ul>
+            <li v-for="(post, index) in posts" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
+
+                <div class="grid">
+                    <div class="cell">
+                        <h2 v-if="visibility[index]" @click="_edit(index,1)">{{post.title}}</h2>
+                        <input v-if="!visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited(index)">
+                        <p v-if="visibility[index]" @click="_edit(index,2)">{{post.text}}</p>
+                        <input v-if="!visibility[index]" type="text" v-model="posts[index].text" @keyup.enter="_edited(index)">
+                    </div>
+
+                    <div class="cell">
+                        <span class="hint--bottom" aria-label="Ссылка на пост">
+                            <a v-bind:href="'#'+index"><i class="material-icons md-48">link</i></a>
+                        </span>
+                    </div>
+
+                    <div class="cell">
+                        <span class="hint--bottom" aria-label="Редактировать пост">
+                            <button v-if="visibility[index]" @click="_edit(index)"><i class="material-icons md-48">create</i></button>
+                        </span>
+                    </div>
+
+                    <div class="cell">
+                        <span class="hint--bottom" aria-label="Удалить пост">
+                            <button @click="_delete(index)"><i class="material-icons md-48">clear</i></button>
+                        </span>
+                    </div>
+                </div>
+                <hr>
+            </li>
+
+            <span class="hint--bottom" aria-label="Новый пост">
+                <button class="btn_new" @click="_add()"><i class="material-icons md-48">add</i></button> 
+            </span>
+
+            <div class="_right">
+
+                <span class="hint--bottom" aria-label="Включить подтверждение удаления">
+                    <button @click="_confirmations( true )" v-if="!confirmations"><i class="material-icons">check_box_outline_blank</i></button>
+                </span>
+
+                <span class="hint--bottom" aria-label="Отключить подтверждение удаления">
+                    <button @click="_confirmations( false )" v-if="confirmations"><i class="material-icons">check_box</i></button>
+                </span>
+
+            </div>
+        </ul>
+    </div>
+</body>
+</html>
+
+<script src="/js/vue.index.js"></script>
