@@ -1,7 +1,7 @@
 <?php
-    if ( !empty($_POST['data']) )
+    if ( !empty($_POST['data']) && !empty($_POST['blog']) )
     {
-        $file = '../posts/posts.json';
+        $file = '../posts/'.$_POST['blog'].'.json';
         $data = $_POST['data'];
         file_put_contents($file, $data);
     }

@@ -9,27 +9,29 @@ body {
     height: 100vh;
 }
 
-body:before {
-    content: "";
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: -1;
-
-    display: block;
-//    background-image: url('../img/07.jpg');
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    
-    filter: brightness(0.25);
-}
-
 nav {
     color: @accent;
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
+    
+    .nav_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    select {
+        width: 100px;
+        height: 30px;
+        float: right;
+        border: none;
+        border-bottom: 1px solid @accent;
+        padding: 5px;
+        &:focus {
+            overflow: none;
+        }
+    }
+    
     a {
         text-decoration: none;
         color: @accent;
@@ -55,13 +57,15 @@ nav {
         background-color: transparent;
         border: none;
         border-bottom: 1px solid @accent;
+        opacity: 0.4;
     }
     input:focus {
         outline: none;
+        opacity: 1;
     }
     ::placeholder {
         color: @accent;
-        opacity: 0.5;
+        opacity: 0.4;
     }
     :-ms-input-placeholder {
         color: @accent;
@@ -158,9 +162,11 @@ nav {
         background-color: transparent;
         border: none;
         cursor: pointer;
-
         &:hover {
             background-color: @shadow;
+        }
+        &:focus {
+            outline: none;
         }
     }
 

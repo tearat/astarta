@@ -1,9 +1,10 @@
 var app = new Vue({
     el: "#app",
     data: {
+        blog: "main",
         posts: [{
-                title: "hello",
-                text: "world"
+                title: "not",
+                text: "loaded"
             }
         ],
         visibility: [true],
@@ -58,19 +59,25 @@ var app = new Vue({
         _confirmations: function (arg) {
             this.confirmations = arg;
         },
+//        refresh: function () {
+//            this.posts = [];
+//            this.posts = this.load_json();
+//        },
         load_json: function () {
             var loaded;
             $.ajax({
-                url: "/posts/posts.json",
+                url: "/posts/" + this.blog + ".json",
                 cache: false,
                 async: false,
             }).done(function (data) {
                 loaded = data;
             });
+            this.visibility = [];
             for (i = 0; i < loaded.length; i++) {
                 this.visibility.push(true);
             }
-            return loaded;
+            this.posts = loaded;
+//            return loaded;
         },
         save_json: function () {
             $.ajax({
@@ -79,12 +86,14 @@ var app = new Vue({
                 cache: false,
                 async: false,
                 data: {
+                    blog: this.blog,
                     data: JSON.stringify(this.posts)
                 }
             });
         }
     },
     mounted: function () {
-        this.posts = this.load_json();
+//        this.refresh();
+        this.load_json();
     }
 })

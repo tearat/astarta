@@ -19,11 +19,22 @@
 <body>
     <div id="app">
         <nav>
-            <a href="/">
-                <h1>Astarta</h1>
-                <img src="/img/logo_black.png" width="64">
-            </a>
-            <br>
+            <div class="nav_grid">
+                <div></div>
+                
+                <a href="/">
+                    <h1>Astarta</h1>
+                    <img src="/img/logo_black.png" width="64">
+                </a>
+                
+                <div>
+                    <select v-model="blog" v-on:change="load_json()">
+                        <option value="main">main</option>
+                        <option value="additional">additional</option>
+                    </select>
+                </div>
+                
+            </div>
             <input type="search" placeholder="поиск" v-model="filter">
         </nav>
         <ul>
@@ -39,7 +50,7 @@
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Ссылка на пост">
-                            <a v-bind:href="'#'+index"><i class="material-icons md-48">link</i></a>
+                            <a v-bind:href="'#'+index" v-if="visibility[index]"><i class="material-icons md-48">link</i></a>
                         </span>
                     </div>
 
@@ -51,7 +62,7 @@
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Удалить пост">
-                            <button @click="_delete(index)"><i class="material-icons md-48">clear</i></button>
+                            <button v-if="visibility[index]" @click="_delete(index)"><i class="material-icons md-48">clear</i></button>
                         </span>
                     </div>
                 </div>
