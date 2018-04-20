@@ -30,30 +30,61 @@
                 </a>
                 
                 <div class="databases _right">
-                    <select v-if="!adding_db" v-model="link" v-on:change="_load_posts()">
+                   
+                    <select v-if="!adding_db && !upload_ready" v-model="link" v-on:change="_load_posts()">
                         <option v-for="database in databases" v-bind:value="database">{{database}}</option>
                     </select>
-                    <span v-if="adding_db">название: </span>
+                    
+                    <span v-if="adding_db && !upload_ready">название: </span>
                     <input id="input_add_db" type="text" v-model="new_db" v-show="adding_db" @keyup.enter="_add_db(new_db)">
                     
-                    <span v-if="!adding_db"  class="hint--bottom" aria-label="Добавить базу данных">
+                    <span v-if="!adding_db && !upload_ready"  class="hint--bottom" aria-label="Добавить базу данных">
                         <button @click="_show_adding_db_input()"><i class="material-icons md-18">add</i></button>
                     </span>
-                    <span v-if="adding_db" class="hint--bottom" aria-label="Подтвердить">
+                    
+                    <span v-if="adding_db && !upload_ready" class="hint--bottom" aria-label="Подтвердить">
                         <button @click="_add_db(new_db)"><i class="material-icons md-18">done</i></button>
                     </span>
-                    <span v-if="adding_db" class="hint--bottom" aria-label="Отмена">
+                    
+                    <span v-if="adding_db && !upload_ready" class="hint--bottom" aria-label="Отмена">
                         <button @click="_hide_adding_db_input()"><i class="material-icons md-18">clear</i></button>
                     </span>
-                    <span v-if="!adding_db" class="hint--bottom" aria-label="Удалить базу данных">
+                    
+                    <span v-if="!adding_db && !upload_ready" class="hint--bottom" aria-label="Удалить базу данных">
                         <button @click="_delete_db()"><i class="material-icons md-18">delete</i></button>
                     </span>
-                    <span v-if="!adding_db" class="hint--bottom" aria-label="Скачать базу данных">
+                    
+                    <span v-if="!adding_db" class="hint--bottom" aria-label="Загрузить базу данных">
+                        <button @click="_upload_db()"><i class="material-icons md-18">file_upload</i></button>
+                    </span>
+                    
+                    <span v-if="!adding_db && upload_ready" class="hint--bottom" aria-label="Подтвердить загрузку">
+                        <button class="_hoverable" @click="_submit()">
+                            <i class="material-icons md-18">done</i>
+                        </button>
+                    </span>
+                    
+                    <span v-if="!adding_db && upload_ready" class="hint--bottom" aria-label="Отменить загрузку">
+                        <button class="_hoverable" @click="_submit_cancel()">
+                            <i class="material-icons md-18">clear</i>
+                        </button>
+                    </span>
+                    
+                    <span v-if="!adding_db && !upload_ready" class="hint--bottom" aria-label="Скачать базу данных">
                         <a class="_hoverable" v-bind:href="'/app/app.php?db='+link">
                             <i class="material-icons md-18">file_download</i>
                         </a>
                     </span>
                 </div>
+                
+                <br>
+                
+                <form action="/app/app.php" id="upload_form" enctype="multipart/form-data" method="post" style="display: none;">
+                    <input type="hidden" name="action" value="upload_db">
+                    <input type="hidden" name="link" v-bind:value="link">
+                    <input type="file" name="file" id="file">
+                    <input type="submit" id="send_form">
+                </form>
                 
             </div>
             <input class="_center" type="search" placeholder="поиск" v-model="filter">

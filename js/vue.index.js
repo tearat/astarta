@@ -18,6 +18,7 @@ var app = new Vue({
         link: "main",
         adding_db: false,
         new_db: "",
+        upload_ready: false
     },
     methods: {
         condition: function (title, text, filter) {
@@ -206,6 +207,16 @@ var app = new Vue({
                 this.info = "База данных удалена";
             }
         },
+        _upload_db: function () {
+            $("#file").click();
+            this.upload_ready = true;
+        },
+        _submit: function () {
+            $("#send_form").click();
+        },
+        _submit_cancel: function () {
+            this.upload_ready = false;
+        }
     },
     mounted: function () {
         this._load_databases();

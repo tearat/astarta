@@ -45,6 +45,19 @@ if ( $_POST['action'] == "delete_db" )
 
 // =================================================
 
+if ( $_POST['action'] == "upload_db" )
+{
+    if ( $_FILES['file'] && ($_FILES['file']['size'] > 0) && ($_FILES['file']['type'] == 'application/octet-stream') ) {
+        $file = $_FILES['file'];
+        $link = $_POST["link"];
+        $name = $_FILES['file']['name'];
+        move_uploaded_file( $file['tmp_name'], "../json/".$name );
+    }
+    header("location: /");
+}
+
+// =================================================
+
 if ( $_GET["db"] )
 {
     $file = "../json/".$_GET["db"].".json";
