@@ -18,6 +18,17 @@ p {
     opacity: 0.75;
 }
 
+._hoverable {
+    cursor: pointer;
+}
+._hoverable:hover {
+    background-color: @shadow;
+}
+
+._right {
+    text-align: right;
+}
+
 nav {
     color: @accent;
     padding-top: 10px;
@@ -30,7 +41,7 @@ nav {
     }
 
     select {
-        width: 120px;
+        width: 100px;
         height: 30px;
         float: right;
         border: none;
@@ -123,21 +134,39 @@ nav {
 
     .cell {
         h2 {
+            margin: 0;
+            padding: 0;
+            margin-bottom: 5px;
             font-weight: 300;
+            color: @accent;
         }
-        h2, p {
-            cursor: pointer;
-            &:hover {
-                background-color: @shadow;
-            }
-        }
-        h2, p, input {
+        p {
             color: @accent;
             margin: 0;
             padding: 0;
-            display: block;
+            &.date {
+                margin-top: 15px;
+            }
+        }
+        textarea {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            border: none;
+            height: 100px;
+            background-color: @shadow;
+            font-family: 'Vollkorn', serif;
+            font-size: 1em;
+            &:focus {
+                outline: none;
+            }
         }
         input {
+            margin: 0;
+            padding: 0;
+            color: @accent;
+            display: block;
+            margin-bottom: 5px;
             font-family: 'Vollkorn', serif;
             border: none;
             background-color: @shadow;
@@ -177,11 +206,11 @@ nav {
         background-color: transparent;
         border: none;
         cursor: pointer;
-        &:hover {
-            background-color: @shadow;
-        }
         &:focus {
             outline: none;
+        }
+        &:hover {
+            background-color: @shadow;
         }
     }
 

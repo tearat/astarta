@@ -42,10 +42,21 @@
 
                 <div class="grid">
                     <div class="cell">
-                        <h2 v-if="visibility[index]" @click="_edit(index,1)">{{post.title}}</h2>
+                       
+                        <h2 v-if="visibility[index]" @click="_edit(index,1)" class="_hoverable">{{post.title}}</h2>
                         <input v-if="!visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited(index)">
-                        <p v-if="visibility[index]" @click="_edit(index,2)">{{post.text}}</p>
-                        <input v-if="!visibility[index]" type="text" v-model="posts[index].text" @keyup.enter="_edited(index)">
+                        
+                        <div v-if="visibility[index]" @click="_edit(index,2)" class="_hoverable">
+                            <par v-for="par in post.text.split('\n')" v-bind:par="par"></par>
+                        </div>
+                        
+                        <textarea v-if="!visibility[index]" v-model="posts[index].text" @keyup.ctrl.enter="_edited(index)"></textarea>
+                        <p v-if="visibility[index]" class="_right date">{{post.date}}</p>
+                        
+                        <span class="hint--bottom" aria-label="Сохранить изменения">
+                            <button v-if="!visibility[index]" @click="_edited(index)"><i class="material-icons md-48">done</i></button>
+                        </span>
+                        
                     </div>
 
                     <div class="cell">
