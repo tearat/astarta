@@ -106,7 +106,8 @@ var app = new Vue({
         },
         _load_posts: function () {
             this.error = "";
-            var loaded;
+            this.info = "";
+            var loaded = false;
             this.posts = [];
             $.ajax({
                 url: "/json/" + this.link + ".json",
@@ -144,7 +145,7 @@ var app = new Vue({
         // Databases
         //
         _load_databases: function () {
-            var loaded;
+            var loaded = false;
             this.databases = [];
             $.ajax({
                 type: "POST",

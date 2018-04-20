@@ -9,11 +9,13 @@ if ( $_POST['action'] == "load_db" )
 
     array_shift($scan);
     array_shift($scan);
+    $key = array_search('main.json', $scan);
+    unset($scan[$key]);
 
     $count = count($scan);
 
     $files = "[";
-    for ( $i=0; $i<$count; $i++ ) {
+    for ( $i=0; $i<=$count-1; $i++ ) {
         if ( $scan[$i] != "main.json" ) {
             $files .= '"'.str_replace( ".json", "", $scan[$i] ).'"';
             if ( $i < $count-1 ) {
