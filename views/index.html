@@ -17,8 +17,10 @@
 </head>
 
 <body>
+<!--    <a href="/app/test.php">test</a>-->
     <div id="app">
         <nav>
+<!--            <h2>{{posts}}</h2>-->
             <div class="nav_grid">
                 <div></div>
                 
@@ -29,17 +31,27 @@
                 
                 <div class="databases _right">
                     <select v-if="!adding_db" v-model="link" v-on:change="_load_posts()">
-                        <option value="main">main</option>
                         <option v-for="database in databases" v-bind:value="database">{{database}}</option>
                     </select>
                     <span v-if="adding_db">название: </span>
                     <input id="input_add_db" type="text" v-model="new_db" v-show="adding_db" @keyup.enter="_add_db(new_db)">
-                    <span class="hint--bottom" aria-label="Новый блог">
-                        <button v-if="!adding_db" @click="_show_adding_db_input()"><i class="material-icons md-18">add</i></button> 
-                        <button v-if="adding_db" @click="_add_db(new_db)"><i class="material-icons md-18">done</i></button> 
-                        <button v-if="adding_db" @click="_hide_adding_db_input()"><i class="material-icons md-18">clear</i></button>
-                         
-                        <button v-if="!adding_db" @click="_delete_db()"><i class="material-icons md-18">delete</i></button> 
+                    
+                    <span v-if="!adding_db"  class="hint--bottom" aria-label="Добавить базу данных">
+                        <button @click="_show_adding_db_input()"><i class="material-icons md-18">add</i></button>
+                    </span>
+                    <span v-if="adding_db" class="hint--bottom" aria-label="Подтвердить">
+                        <button @click="_add_db(new_db)"><i class="material-icons md-18">done</i></button>
+                    </span>
+                    <span v-if="adding_db" class="hint--bottom" aria-label="Отмена">
+                        <button @click="_hide_adding_db_input()"><i class="material-icons md-18">clear</i></button>
+                    </span>
+                    <span v-if="!adding_db" class="hint--bottom" aria-label="Удалить базу данных">
+                        <button @click="_delete_db()"><i class="material-icons md-18">delete</i></button>
+                    </span>
+                    <span v-if="!adding_db" class="hint--bottom" aria-label="Скачать базу данных">
+                        <a class="_hoverable" v-bind:href="'/app/app.php?db='+link">
+                            <i class="material-icons md-18">file_download</i>
+                        </a>
                     </span>
                 </div>
                 
@@ -74,7 +86,7 @@
                         </div>
                         
                         <textarea v-if="!posts_visibility[index]" v-model="posts[index].text" @keyup.ctrl.enter="_edited_post(index)"></textarea>
-                        <p v-if="posts_visibility[index]" class="_right date">{{post.date}}</p>
+                        <p v-if="posts_visibility[index]" class="date">{{post.date}}</p>
                         
                         <span class="hint--bottom" aria-label="Сохранить изменения">
                             <button v-if="!posts_visibility[index]" @click="_edited_post(index)"><i class="material-icons md-48">done</i></button>

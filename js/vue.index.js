@@ -107,8 +107,8 @@ var app = new Vue({
         _load_posts: function () {
             this.error = "";
             this.info = "";
-            var loaded = false;
-            this.posts = [];
+            var loaded;
+//            this.posts = [];
             $.ajax({
                 url: "/json/" + this.link + ".json",
                 cache: false,
@@ -168,8 +168,15 @@ var app = new Vue({
             this.adding_db = false;
         },
         _add_db: function (db) {
-            if ( db == "main" || this.databases.includes(db) ) { alert("Такая база данных уже есть"); return false; }
-            if ( this.new_db == "" ) { return false; }
+            if ( db == "main" || this.databases.includes(db) ) { this.error = "Такая база данных уже есть"; return false; }
+            
+            if ( this.new_db == "" ) { this.error = "Нужно указать название базы данных"; return false; }
+            
+            if ( db.search( /[a-zA-Z0-9]+/ ) == -1 ) {
+                this.error = "Название может содержать только латинские буквы и цифры";
+                return false;
+            }
+            
             this.link = db;
             this.posts = [{ title: "New Database "+db, text: "is created", date: this.date }];
             this.new_db = "";
@@ -198,7 +205,7 @@ var app = new Vue({
                 this._load_posts();
                 this.info = "База данных удалена";
             }
-        }
+        },
     },
     mounted: function () {
         this._load_databases();
