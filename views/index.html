@@ -27,53 +27,76 @@
                     <img src="/img/logo_black.png" width="64">
                 </a>
                 
-                <div>
-                    <select v-model="blog" v-on:change="load_json()">
+                <div class="databases _right">
+                    <select v-if="!adding_db" v-model="link" v-on:change="_load_posts()">
                         <option value="main">main</option>
-                        <option value="additional">additional</option>
+                        <option v-for="database in databases" v-bind:value="database">{{database}}</option>
                     </select>
+                    <span v-if="adding_db">название: </span>
+                    <input id="input_add_db" type="text" v-model="new_db" v-show="adding_db" @keyup.enter="_add_db(new_db)">
+                    <span class="hint--bottom" aria-label="Новый блог">
+                        <button v-if="!adding_db" @click="_show_adding_db_input()"><i class="material-icons md-18">add</i></button> 
+                        <button v-if="adding_db" @click="_add_db(new_db)"><i class="material-icons md-18">done</i></button> 
+                        <button v-if="adding_db" @click="_hide_adding_db_input()"><i class="material-icons md-18">clear</i></button>
+                         
+                        <button v-if="!adding_db" @click="_delete_db()"><i class="material-icons md-18">delete</i></button> 
+                    </span>
                 </div>
                 
             </div>
-            <input type="search" placeholder="поиск" v-model="filter">
+            <input class="_center" type="search" placeholder="поиск" v-model="filter">
         </nav>
+        
+<!--        -->
+        
+        <div class="informers">
+            <p class="_center error" v-if="error">Error: {{error}}</p>
+
+            <p class="_center info _hoverable" v-if="info" @click="_close_info()">{{info}}
+                <button v-if="info"><i class="material-icons md-18">clear</i></button>
+            </p>
+        </div>
+        
+<!--        -->
+        
+        <h2 class="_center">{{link}}</h2>
         <ul>
             <li v-for="(post, index) in posts" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
 
                 <div class="grid">
                     <div class="cell">
                        
-                        <h2 v-if="visibility[index]" @click="_edit(index,1)" class="_hoverable">{{post.title}}</h2>
-                        <input v-if="!visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited(index)">
+                        <h2 v-if="posts_visibility[index]" @click="_edit_post(index,1)" class="_hoverable">{{post.title}}</h2>
+                        <input v-if="!posts_visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited_post(index)">
                         
-                        <div v-if="visibility[index]" @click="_edit(index,2)" class="_hoverable">
+                        <div v-if="posts_visibility[index]" @click="_edit_post(index,0)" class="_hoverable">
                             <par v-for="par in post.text.split('\n')" v-bind:par="par"></par>
                         </div>
                         
-                        <textarea v-if="!visibility[index]" v-model="posts[index].text" @keyup.ctrl.enter="_edited(index)"></textarea>
-                        <p v-if="visibility[index]" class="_right date">{{post.date}}</p>
+                        <textarea v-if="!posts_visibility[index]" v-model="posts[index].text" @keyup.ctrl.enter="_edited_post(index)"></textarea>
+                        <p v-if="posts_visibility[index]" class="_right date">{{post.date}}</p>
                         
                         <span class="hint--bottom" aria-label="Сохранить изменения">
-                            <button v-if="!visibility[index]" @click="_edited(index)"><i class="material-icons md-48">done</i></button>
+                            <button v-if="!posts_visibility[index]" @click="_edited_post(index)"><i class="material-icons md-48">done</i></button>
                         </span>
                         
                     </div>
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Ссылка на пост">
-                            <a v-bind:href="'#'+index" v-if="visibility[index]"><i class="material-icons md-48">link</i></a>
+                            <a v-bind:href="'#'+index" v-if="posts_visibility[index]"><i class="material-icons md-48">link</i></a>
                         </span>
                     </div>
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Редактировать пост">
-                            <button v-if="visibility[index]" @click="_edit(index)"><i class="material-icons md-48">create</i></button>
+                            <button v-if="posts_visibility[index]" @click="_edit_post(index)"><i class="material-icons md-48">create</i></button>
                         </span>
                     </div>
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Удалить пост">
-                            <button v-if="visibility[index]" @click="_delete(index)"><i class="material-icons md-48">clear</i></button>
+                            <button v-if="posts_visibility[index]" @click="_delete_post(index)"><i class="material-icons md-48">clear</i></button>
                         </span>
                     </div>
                 </div>
@@ -81,17 +104,17 @@
             </li>
 
             <span class="hint--bottom" aria-label="Новый пост">
-                <button class="btn_new" @click="_add()"><i class="material-icons md-48">add</i></button> 
+                <button v-if="!error" class="btn_new" @click="_add_post()"><i class="material-icons md-48">add</i></button> 
             </span>
 
-            <div class="_right">
+            <div v-if="!error" class="_right">
 
                 <span class="hint--bottom" aria-label="Включить подтверждение удаления">
-                    <button @click="_confirmations( true )" v-if="!confirmations"><i class="material-icons">check_box_outline_blank</i></button>
+                    <button @click="_change_confirmations( true )" v-if="!confirmations"><i class="material-icons">check_box_outline_blank</i></button>
                 </span>
 
                 <span class="hint--bottom" aria-label="Отключить подтверждение удаления">
-                    <button @click="_confirmations( false )" v-if="confirmations"><i class="material-icons">check_box</i></button>
+                    <button @click="_change_confirmations( false )" v-if="confirmations"><i class="material-icons">check_box</i></button>
                 </span>
 
             </div>

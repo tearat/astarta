@@ -29,6 +29,56 @@ p {
     text-align: right;
 }
 
+._center {
+    text-align: center;
+}
+
+#app {
+    min-width: 200px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: @accent;
+    &:focus {
+        outline: none;
+    }
+    &:hover {
+        background-color: @shadow;
+    }
+}
+
+// ============================================================
+
+.informers {
+    text-align: center;
+    font-weight: 600;
+    
+    .error {
+        color: crimson;
+    }
+    
+    .info {
+        color: forestgreen;
+        padding-bottom: 5px;
+    }
+    
+    button {
+        margin: 0;
+        padding: 0;
+        display: inline;
+        position: relative;
+        top: 8px;
+        color: forestgreen;
+    }
+}
+
+// ============================================================
+
 nav {
     color: @accent;
     padding-top: 10px;
@@ -40,20 +90,44 @@ nav {
         grid-template-columns: 1fr 1fr 1fr;
     }
 
-    select {
-        width: 100px;
-        height: 30px;
-        float: right;
-        border: none;
-        //        border-bottom: 1px solid @accent;
-        padding: 5px;
-        &:focus {
-            outline: none;
+    .databases {
+        opacity: 0.25;
+        &:hover {
+            opacity: 1;
         }
-        option {
+        float: right;
+        select {
+            width: 100px;
+            height: 30px;
             border: none;
+            border-bottom: 1px solid @accent;
+            padding: 5px;
+            &:focus {
+                outline: none;
+            }
+            option {
+                border: none;
+            }
+        }
+        
+        input {
+            margin: 0;
+            padding: 0;
+            width: 100px;
+            height: 30px;
+        }
+        
+        button {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            top: 5px;
+        }
+        i {
+            font-size: 20px;
         }
     }
+    
 
     a {
         text-decoration: none;
@@ -78,14 +152,13 @@ nav {
     input {
         color: @accent;
         display: inline-block;
-        text-align: center;
         font-size: 1em;
         padding: 5px;
         margin-left: 8px;
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid @accent;
-        opacity: 0.4;
+        border-bottom: 1px solid @shadow;
+//        opacity: 0.4;
     }
     input:focus {
         outline: none;
@@ -103,20 +176,18 @@ nav {
     }
 }
 
-#app {
+// ========================================================
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
     padding: 20px;
-    //    background-color: rgba(0, 0, 0, 0.25);
-    filter: none;
-    min-width: 200px;
-    max-width: 800px;
-    margin: 0 auto;
-    ul, li {
+    
+    li {
         margin: 0;
         padding: 0;
-    }
-
-    ul {
-        list-style: none;
     }
 
     .grid {
@@ -128,11 +199,14 @@ nav {
 
     hr {
         border: none;
-        border-bottom: 1px solid @accent;
-        opacity: 0.25;
+        border-bottom: 1px solid @shadow;
     }
 
     .cell {
+        &:nth-child(1) {
+            border-right: 1px solid @shadow;
+            margin-right: 10px;
+        }
         h2 {
             margin: 0;
             padding: 0;
@@ -145,6 +219,7 @@ nav {
             margin: 0;
             padding: 0;
             &.date {
+                padding-right: 10px;
                 margin-top: 15px;
             }
         }
@@ -203,15 +278,6 @@ nav {
     button {
         color: @accent;
         padding: 10px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        &:focus {
-            outline: none;
-        }
-        &:hover {
-            background-color: @shadow;
-        }
     }
 
     ._right {
