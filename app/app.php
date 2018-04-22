@@ -49,9 +49,15 @@ if ( $_POST['action'] == "upload_db" )
 {
     if ( $_FILES['file'] && ($_FILES['file']['size'] > 0) && ($_FILES['file']['type'] == 'application/octet-stream') ) {
         $file = $_FILES['file'];
-        $link = $_POST["link"];
         $name = $_FILES['file']['name'];
-        move_uploaded_file( $file['tmp_name'], "../json/".$name );
+        $name_wo = substr( $name, 0, count($name)-6 );
+        
+        preg_match('/.json/', $name, $is_json);
+        preg_match('/[a-zA-Z0-9]+/', $name_wo, $is_correct_name);
+        
+        if ( $is_json && $is_correct_name ) {
+            move_uploaded_file( $file['tmp_name'], "../json/".$name );
+        }
     }
     header("location: /");
 }
