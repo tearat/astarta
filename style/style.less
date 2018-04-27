@@ -94,6 +94,13 @@ nav {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
     }
+    
+    .debug {
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
 
     .databases {
         opacity: 0.25;
@@ -217,7 +224,7 @@ ul {
     .cell {
         &:nth-child(1) {
             border-right: 1px solid @shadow;
-//            margin-right: 10px;
+            padding-right: 10px;
         }
         h2 {
             margin: 0;
@@ -240,7 +247,7 @@ ul {
             padding: 0;
             width: 100%;
             border: none;
-            height: 100px;
+            height: 200px;
             background-color: @shadow;
             font-family: 'Vollkorn', serif;
             font-size: 1em;

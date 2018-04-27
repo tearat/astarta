@@ -20,9 +20,19 @@
 <!--    <a href="/app/test.php">test</a>-->
     <div id="app">
         <nav>
-<!--            <h2>{{posts}}</h2>-->
             <div class="nav_grid">
-                <div></div>
+                <div v-if="!debug"></div>
+                <div class="debug" v-if="debug">
+                    <p>filter: {{filter}}</p>
+                    <p>posts_visibility: {{posts_visibility}}</p>
+                    <p>confirmations: {{confirmations}}</p>
+                    <p>reverse: {{reverse}}</p>
+                    <p>databases: {{databases}}</p>
+                    <p>link: {{link}}</p>
+                    <p>adding_db: {{adding_db}}</p>
+                    <p>new_db: {{new_db}}</p>
+                    <p>upload_ready: {{upload_ready}}</p>
+                </div>
                 
                 <a href="/">
                     <h1>Astarta</h1>
@@ -99,19 +109,19 @@
             </p>
         </div>
         
-<!--        -->
+        <!--             -->
+        <!-- ПОСТЫ -->
         
         <h2 class="_center">{{link}}</h2>
         <ul>
-            <li v-for="(post, index) in posts" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
-
+            <li v-for="(post, index) in posts_gen" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
                 <div class="grid">
                     <div class="cell">
                        
-                        <h2 v-if="posts_visibility[index]" @click="_edit_post(index,1)" class="_hoverable">{{post.title}}</h2>
+                        <h2 v-if="posts_visibility[index]">{{post.title}}</h2>
                         <input v-if="!posts_visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited_post(index)">
                         
-                        <div v-if="posts_visibility[index]" @click="_edit_post(index,0)" class="_hoverable">
+                        <div v-if="posts_visibility[index]">
                             <par v-for="par in post.text.split('\n')" v-bind:par="par"></par>
                         </div>
                         
@@ -151,14 +161,21 @@
 
             <div v-if="!error" class="_right">
 
-                <span class="hint--bottom" aria-label="Включить подтверждение удаления">
-                    <button @click="_change_confirmations( true )" v-if="!confirmations"><i class="material-icons">check_box_outline_blank</i></button>
+                <span v-if="!reverse" class="hint--bottom" aria-label="В обратном порядке">
+                    <button @click="_change_reverse( true )"><i class="material-icons">sort_by_alpha</i></button>
+                </span>
+                
+                <span v-if="reverse" class="hint--bottom" aria-label="В прямом порядке">
+                    <button @click="_change_reverse( false )"><i class="material-icons">sort_by_alpha</i></button>
+                </span>
+               
+                <span v-if="!confirmations" class="hint--bottom" aria-label="Включить подтверждение удаления">
+                    <button @click="_change_confirmations( true )"><i class="material-icons">check_box_outline_blank</i></button>
                 </span>
 
-                <span class="hint--bottom" aria-label="Отключить подтверждение удаления">
-                    <button @click="_change_confirmations( false )" v-if="confirmations"><i class="material-icons">check_box</i></button>
+                <span v-if="confirmations" class="hint--bottom" aria-label="Отключить подтверждение удаления">
+                    <button @click="_change_confirmations( false )"><i class="material-icons">check_box</i></button>
                 </span>
-
             </div>
         </ul>
     </div>

@@ -6,6 +6,8 @@ Vue.component('par', {
 var app = new Vue({
     el: "#app",
     data: {
+        debug: false,
+        //
         filter: "",
         error: "",
         info: "",
@@ -13,12 +15,23 @@ var app = new Vue({
         posts: [],
         posts_visibility: [true],
         confirmations: true,
+        reverse: false,
         //
         databases: [],
         link: "main",
         adding_db: false,
         new_db: "",
         upload_ready: false
+    },
+    computed: {
+        posts_gen: function() {
+            if ( this.reverse == false ) {
+                return this.posts;
+            }
+            if ( this.reverse == true ) {
+                return this.posts.reverse();
+            }
+        }
     },
     methods: {
         condition: function (title, text, filter) {
@@ -105,7 +118,12 @@ var app = new Vue({
         _change_confirmations: function (arg) {
             this.confirmations = arg;
         },
+        _change_reverse: function (arg) {
+            console.log( "reverse change to: " + arg );
+            this.reverse = arg;
+        },
         _load_posts: function () {
+            this.reverse = false;
             this.error = "";
             this.info = "";
             var loaded;
@@ -146,6 +164,7 @@ var app = new Vue({
         // Databases
         //
         _load_databases: function () {
+            this.reverse = false;
             var loaded = false;
             this.databases = [];
             $.ajax({
