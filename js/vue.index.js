@@ -47,7 +47,7 @@ var app = new Vue({
             var day = date_now.getDate();
             var month = ""+date_now.getMonth();
                 month = month.length < 2 ? "0"+month : month;
-            var year = date_now.getYear();
+            var year = date_now.getFullYear();
             var hours = date_now.getHours();
             var minutes = ""+date_now.getMinutes();
                 minutes = minutes.length < 2 ? "0"+minutes : minutes;
@@ -76,20 +76,20 @@ var app = new Vue({
             this.posts_visibility.push(true);
             this._save_posts();
         },
-        _edit_post: function (index, input) {
+        _edit_post: function (index, pos) {
             this.posts_visibility = new Array(this.posts_visibility.length).fill(true);
             this.posts_visibility[index] = false;
             var temp = this.posts_visibility;
             this.posts_visibility = [];
             this.posts_visibility = temp;
-            if ( input ) {
+            if ( pos == 1 ) {
                 Vue.nextTick(function () {
-                    $('input').eq(2).focus();
+                    $('#input_'+index).focus();
                 })
             }
-            else {
+            else if ( pos == 2 ) {
                 Vue.nextTick(function () {
-                    $('textarea').eq(0).focus();
+                    $('#textarea_'+index).focus();
                 })
             }
         },

@@ -118,14 +118,14 @@
                 <div class="grid">
                     <div class="cell">
                        
-                        <h2 v-if="posts_visibility[index]">{{post.title}}</h2>
-                        <input v-if="!posts_visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited_post(index)">
+                        <h2 @click.ctrl="_edit_post(index,1)" v-if="posts_visibility[index]">{{post.title}}</h2>
+                        <input v-if="!posts_visibility[index]" type="text" v-model="posts[index].title" @keyup.enter="_edited_post(index)" v-bind:id="'input_'+index">
                         
-                        <div v-if="posts_visibility[index]">
+                        <div @click.ctrl="_edit_post(index,2)" v-if="posts_visibility[index]">
                             <par v-for="par in post.text.split('\n')" v-bind:par="par"></par>
                         </div>
                         
-                        <textarea v-if="!posts_visibility[index]" v-model="posts[index].text" @keyup.ctrl.enter="_edited_post(index)"></textarea>
+                        <textarea v-if="!posts_visibility[index]" v-model="posts[index].text" @keyup.ctrl.enter="_edited_post(index)" v-bind:id="'textarea_'+index"></textarea>
                         <p v-if="posts_visibility[index]" class="date">{{post.date}}</p>
                         
                         <span class="hint--bottom" aria-label="Сохранить изменения">
@@ -142,7 +142,7 @@
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Редактировать пост">
-                            <button v-if="posts_visibility[index]" @click="_edit_post(index)"><i class="material-icons md-48">create</i></button>
+                            <button v-if="posts_visibility[index]" @click="_edit_post(index,2)"><i class="material-icons md-48">create</i></button>
                         </span>
                     </div>
 
