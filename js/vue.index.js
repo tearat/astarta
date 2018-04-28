@@ -24,14 +24,6 @@ var app = new Vue({
         upload_ready: false
     },
     computed: {
-        posts_gen: function() {
-            if ( this.reverse == false ) {
-                return this.posts;
-            }
-            if ( this.reverse == true ) {
-                return this.posts.reverse();
-            }
-        }
     },
     methods: {
         condition: function (title, text, filter) {
@@ -119,11 +111,18 @@ var app = new Vue({
             this.confirmations = arg;
         },
         _change_reverse: function (arg) {
+            this.posts.reverse();
             console.log( "reverse change to: " + arg );
             this.reverse = arg;
         },
+        _check_reverse: function() {
+            if ( this.reverse ) {
+                this.reverse = false;
+                this.posts.reverse();
+            }
+        },
         _load_posts: function () {
-            this.reverse = false;
+            this._check_reverse();
             this.error = "";
             this.info = "";
             var loaded;
@@ -148,6 +147,7 @@ var app = new Vue({
             }
         },
         _save_posts: function () {
+            this._check_reverse();
             $.ajax({
                 type: "POST",
                 url: "/app/app.php",
@@ -164,7 +164,7 @@ var app = new Vue({
         // Databases
         //
         _load_databases: function () {
-            this.reverse = false;
+            this._check_reverse();
             var loaded = false;
             this.databases = [];
             $.ajax({
@@ -188,6 +188,7 @@ var app = new Vue({
             this.adding_db = false;
         },
         _add_db: function (db) {
+            this._check_reverse();
             if ( db == "main" || this.databases.includes(db) ) { this.error = "Такая база данных уже есть"; return false; }
             
             if ( this.new_db == "" ) { this.error = "Нужно указать название базы данных"; return false; }

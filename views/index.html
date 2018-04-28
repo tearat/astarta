@@ -112,9 +112,9 @@
         <!--             -->
         <!-- ПОСТЫ -->
         
-        <h2 class="_center">{{link}}</h2>
+        <h2 class="_center">{{link}} <span v-if="reverse">(обр.)</span></h2>
         <ul>
-            <li v-for="(post, index) in posts_gen" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
+            <li v-for="(post, index) in posts" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
                 <div class="grid">
                     <div class="cell">
                        
