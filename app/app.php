@@ -64,9 +64,9 @@ if ( $_POST['action'] == "upload_db" )
 
 // =================================================
 
-if ( $_GET["db"] )
+if ( $_GET["download_db"] )
 {
-    $file = "../json/".$_GET["db"].".json";
+    $file = "../json/".$_GET["download_db"].".json";
 
     if (file_exists($file)) 
     {
