@@ -1,0 +1,5 @@
+RewriteEngine On
+ErrorDocument 404 /index.php?page=404
+RewriteRule    ^error$ index.php?page=404
+
+RewriteRule    ^download/([a-zA-Z0-9]+)$ app/app.php?download_db=$1
