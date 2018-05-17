@@ -95,16 +95,17 @@ var app = new Vue({
             this.posts_visibility = temp;
             this._save_posts();
         },
-        _delete_post: function (index) {
-            if (this.confirmations) {
+        _delete_post: function (index, e) {
+            if (e.ctrlKey) {
+                this.posts.splice(index, 1);
+                this._save_posts();
+            }
+            else {
                 var question = confirm("Удалить этот пост?");
                 if (question == true) {
                     this.posts.splice(index, 1);
                     this._save_posts();
                 }
-            } else {
-                this.posts.splice(index, 1);
-                this._save_posts();
             }
         },
         _change_confirmations: function (arg) {

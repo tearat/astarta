@@ -148,7 +148,7 @@
 
                     <div class="cell">
                         <span class="hint--bottom" aria-label="Удалить пост">
-                            <button v-if="posts_visibility[index]" @click="_delete_post(index)" v-bind:class="{ _active: !confirmations }"><i class="material-icons md-48">clear</i></button>
+                            <button v-if="posts_visibility[index]" @click="_delete_post(index, $event)" v-bind:class="{ _active: !confirmations }"><i class="material-icons md-48">clear</i></button>
                         </span>
                     </div>
                 </div>
@@ -169,6 +169,7 @@
                     <button @click="_change_reverse( false )" v-bind:class="{ _active: reverse }"><i class="material-icons">sort_by_alpha</i></button>
                 </span>
                
+<!--
                 <span v-if="!confirmations" class="hint--bottom" aria-label="Включить подтверждение удаления">
                     <button @click="_change_confirmations( true )"  v-bind:class="{ _active: !confirmations }"><i class="material-icons">check_box_outline_blank</i></button>
                 </span>
@@ -176,6 +177,8 @@
                 <span v-if="confirmations" class="hint--bottom" aria-label="Отключить подтверждение удаления">
                     <button @click="_change_confirmations( false )"><i class="material-icons">check_box</i></button>
                 </span>
+-->
+                
             </div>
         </ul>
     </div>
