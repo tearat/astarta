@@ -113,6 +113,23 @@
         <!-- ПОСТЫ -->
         
         <h2 class="_center">{{link}} <span v-if="reverse">(обр.)</span></h2>
+        
+        <div class="_center">
+            <span class="hint--bottom" aria-label="Новый пост">
+                <button v-if="!error" class="btn_new" @click="_add_post()"><i class="material-icons md-48">add</i></button> 
+            </span>
+        </div>
+
+        <div v-if="!error" class="_right">
+            <span v-if="!reverse" class="hint--bottom" aria-label="В обратном порядке">
+                <button @click="_change_reverse( true )"><i class="material-icons">sort_by_alpha</i></button>
+            </span>
+
+            <span v-if="reverse" class="hint--bottom" aria-label="В прямом порядке">
+                <button @click="_change_reverse( false )" v-bind:class="{ _active: reverse }"><i class="material-icons">sort_by_alpha</i></button>
+            </span>
+        </div>
+        
         <ul>
             <li v-for="(post, index) in posts" v-if="condition(post.title, post.text, filter)" v-bind:id="index">
                 <div class="grid">
@@ -155,31 +172,7 @@
                 <hr>
             </li>
 
-            <span class="hint--bottom" aria-label="Новый пост">
-                <button v-if="!error" class="btn_new" @click="_add_post()"><i class="material-icons md-48">add</i></button> 
-            </span>
-
-            <div v-if="!error" class="_right">
-
-                <span v-if="!reverse" class="hint--bottom" aria-label="В обратном порядке">
-                    <button @click="_change_reverse( true )"><i class="material-icons">sort_by_alpha</i></button>
-                </span>
-                
-                <span v-if="reverse" class="hint--bottom" aria-label="В прямом порядке">
-                    <button @click="_change_reverse( false )" v-bind:class="{ _active: reverse }"><i class="material-icons">sort_by_alpha</i></button>
-                </span>
-               
-<!--
-                <span v-if="!confirmations" class="hint--bottom" aria-label="Включить подтверждение удаления">
-                    <button @click="_change_confirmations( true )"  v-bind:class="{ _active: !confirmations }"><i class="material-icons">check_box_outline_blank</i></button>
-                </span>
-
-                <span v-if="confirmations" class="hint--bottom" aria-label="Отключить подтверждение удаления">
-                    <button @click="_change_confirmations( false )"><i class="material-icons">check_box</i></button>
-                </span>
--->
-                
-            </div>
+            
         </ul>
     </div>
 </body>
